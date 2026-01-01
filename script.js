@@ -374,7 +374,19 @@ function captureScreenshot() {
                     formGradient.addColorStop(0.4, 'rgba(255, 105, 134, 0.6)');
                     formGradient.addColorStop(0.7, 'rgba(255, 105, 134, 0.1)');
                     formGradient.addColorStop(1, 'transparent');
-                } else if (form.classList.contains('white-form')) {
+                } 
+                else if (form.classList.contains('green-form')) {
+                    formGradient = ctx.createRadialGradient(
+                        centerX, centerY, 0, 
+                        centerX, centerY, size/2
+                    );
+                    formGradient.addColorStop(0,'rgba(182, 255, 208, 0.8)');
+                    formGradient.addColorStop(0.4, 'rgba(154, 255, 136, 0.6)');
+                    formGradient.addColorStop(0.7, 'rgba(64, 254, 77, 0.2)');
+                    formGradient.addColorStop(1, 'transparent');
+                } 
+                
+                else if (form.classList.contains('white-form')) {
                     formGradient = ctx.createRadialGradient(
                         centerX, centerY, 0, 
                         centerX, centerY, size/2
