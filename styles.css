@@ -78,7 +78,7 @@
             text-align: center;
             width: 300px;
             margin-left: -150px;
-            background-color: rgba(0, 0, 0, 0.215); /* ← AÑADE ESTA LÍNEA */
+            background-color: rgba(0, 0, 0, 0.32); /* ← AÑADE ESTA LÍNEA */
             padding: 8px 8px; /* ← Añade padding para que el fondo se vea bien */
         }
 
@@ -244,3 +244,24 @@
                 transform: scale(10);
             }
         }
+
+        .initial-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: rgba(100, 100, 100, 0.081);
+    font-family: 'Atkinson Hyperlegible Mono', sans-serif;
+    text-align: center;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+    z-index: 10000;
+   
+}
+
+.initial-message.hidden {
+    opacity: 0;
+    pointer-events: none;
+}

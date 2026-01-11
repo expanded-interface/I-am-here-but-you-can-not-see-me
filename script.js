@@ -1,9 +1,13 @@
 let thoughtForms = [];
+// Añade estas variables con las demás
+        let isFirstClick = true;
+        let ambientTimer = null;
         let mousePressed = false;
         let holdTimer = null;
         let interactionCount = 0;
         let currentFragmentIndex = 0;
         let isCapturing = false; 
+        
 
         const fragments = [
             "No hay una sola línea del tiempo. Hay superposiciones.",
@@ -43,13 +47,13 @@ function createThoughtForm(x, y, container, showText = true) {
     
     // Definir tipos con probabilidades personalizadas
     const types = [
-        {name: 'pink-form', weight: 1},    // 25% de probabilidad
-        {name: 'white-form', weight: 1},   // 10% de probabilidad
-        {name: 'grey-form', weight: 1},    // 20% de probabilidad
-        {name: 'lavender-form', weight: 1}, // 25% de probabilidad
-        {name: 'peach-form', weight: 1},   // 25% de probabilidad
-        {name: 'green-form', weight: 1}, // 25% de probabilidad
-        {name: 'blue-form', weight: 1}   // 25% de probabilidad
+        {name: 'pink-form', weight: 9},    // 25% de probabilidad
+        {name: 'white-form', weight: 4},   // 10% de probabilidad
+        {name: 'grey-form', weight: 4},    // 20% de probabilidad
+        {name: 'lavender-form', weight: 9}, // 25% de probabilidad
+        {name: 'peach-form', weight: 9},   // 25% de probabilidad
+        {name: 'green-form', weight: 9}, // 25% de probabilidad
+        {name: 'blue-form', weight: 9}   // 25% de probabilidad
     ];
     
     // Calcular total de pesos
@@ -70,7 +74,7 @@ function createThoughtForm(x, y, container, showText = true) {
             
             // Responsive size based on screen width
             const maxSize = window.innerWidth < 768 ? 100 : 120;
-            const minSize = window.innerWidth < 768 ? 10 : 20;
+            const minSize = window.innerWidth < 768 ? 40 : 50;
             const size = minSize + Math.random() * (maxSize - minSize);
             
             form.style.width = size + 'px';
@@ -110,7 +114,7 @@ function createThoughtForm(x, y, container, showText = true) {
             
             container.appendChild(text);
             
-            setTimeout(() => text.classList.add('visible'), 1000);
+            setTimeout(() => text.classList.add('visible'), 200);
             setTimeout(() => {
                 text.style.opacity = '0';
                 setTimeout(() => container.removeChild(text), 1000);
@@ -232,17 +236,7 @@ function createThoughtForm(x, y, container, showText = true) {
             createThoughtForm(100, 350, container, false);
         }, 1000);
 
-        // Periodic ambient thought forms
-        setInterval(() => {
-            if (Math.random() < 0.3) {
-                const container = document.getElementById('mainContainer');
-                
-                const x = Math.random() * window.innerWidth;
-                const y = Math.random() * window.innerHeight;
-                
-                createThoughtForm(x, y, container, false);
-            }
-        }, 5000);
+       
 
         // Capture button functionality
 document.getElementById('captureBtn').addEventListener('click', async function() {
@@ -400,4 +394,34 @@ document.getElementById('captureBtn').addEventListener('click', async function()
             isCapturing = false;
         }, 2000);
     }
+});
+
+
+
+document.addEventListener('click', (e) => {
+    // Don't create thought forms if clicking the capture button
+    if (e.target.id === 'captureBtn') return;
+    
+    // Ocultar mensaje inicial en el primer clic
+    if (isFirstClick) {
+        const initialMessage = document.getElementById('initialMessage');
+        if (initialMessage) {
+            initialMessage.classList.add('hidden');
+            // Iniciar audio (con volumen bajo)
+            const audio = document.getElementById('bgAudio');
+            audio.volume = 0.3;
+            audio.play().catch(e => console.log("Audio requiere interacción del usuario"));
+        }
+        isFirstClick = false;
+    }
+    
+    interactionCount++;
+    
+    // Hide instructions after first interaction
+    if (interactionCount === 1) {
+        document.getElementById('instructions').classList.add('hidden');
+    }
+    
+    const container = document.getElementById('mainContainer');
+    createThoughtForm(e.clientX, e.clientY, container);
 });
