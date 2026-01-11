@@ -1,5 +1,3 @@
-
-
 let thoughtForms = [];
         let mousePressed = false;
         let holdTimer = null;
